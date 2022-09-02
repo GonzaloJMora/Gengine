@@ -1,6 +1,11 @@
 #include <iostream>
+#include "Engine.h"
+
+using namespace Eng;
+
+void Startup();
 
 int main( int argc, const char* argv[] ) {
-    std::cout << "Hello, World!\n";
-    return 0;
+	Startup();
+    	return 0;
 }
