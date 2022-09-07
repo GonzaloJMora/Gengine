@@ -11,6 +11,7 @@ void Graphics::GraphicsManager::GStartup(int window_width, int window_height, Fo
 	glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 	GLFWwindow* window = glfwCreateWindow( window_width, window_height, window_name.c_str(), window_fullscreen ? glfwGetPrimaryMonitor() : 0, 0 );
 	glfwSetWindowAspectRatio( window, window_width, window_height );
+	w = window;
 
 	if( !window ) {
 		spdlog::error("Failed to create a window.");

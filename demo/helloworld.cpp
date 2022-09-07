@@ -1,11 +1,13 @@
 #include <iostream>
 #include "Engine.h"
 
-using namespace Eng;
+using namespace Gengine;
 
-void Startup();
+Gengine::Engine engine;
 
 int main( int argc, const char* argv[] ) {
-	Startup();
-    	return 0;
+
+	engine.Startup();
+    return 0;
+
 }
