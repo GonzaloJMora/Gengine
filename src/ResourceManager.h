@@ -2,6 +2,8 @@
 #include "Types.h"
 #include <filesystem>
 
+typedef std::filesystem::path path;
+
 namespace Resource {
 	class ResourceManager {
 		public:

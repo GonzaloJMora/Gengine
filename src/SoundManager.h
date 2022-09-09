@@ -2,7 +2,6 @@
 #include "soloud.h"
 #include "soloud_wav.h"
 #include <unordered_map>
-#include "spdlog/spdlog.h"
 #include <string>
 
 namespace Sound {

@@ -1,5 +1,4 @@
 #include "GraphicsManager.h"
-#include "GLFW/glfw3.h"
 #include "spdlog/spdlog.h"
 
 void Graphics::GraphicsManager::GStartup(int window_width, int window_height, Foo::string window_name, bool window_fullscreen) {

@@ -1,10 +1,5 @@
 #include "Engine.h"
 #include "spdlog/spdlog.h"
-#include "GraphicsManager.h"
-#include "InputManager.h"
-#include "SoundManager.h"
-#include <thread>
-#include <chrono>
 
 using namespace Gengine;
 using namespace Foo;
@@ -16,14 +11,17 @@ Graphics::GraphicsManager graphics;
 Input::InputManager input;
 Sound::SoundManager sound;
 
-void Gengine::Engine::Startup() {
-	//at some other point i will allow for user input here
+void inputCallback();
+
+void Gengine::Engine::Startup(const UpdateCallback& callback) {
+	//at some other point i will allow for user input for the window
 	graphics.GStartup(1280, 960, "Gengine Collision", false);
 	sound.s.init();
-	sound.loadSound("golds", "./assets/golds.wav");
-	sound.loadSound("stop", "./assets/stop.wav");
-	sound.loadSound("moyai", "./assets/moyai.wav");
-	RunGameLoop();
+	sound.loadSound("golds", "sounds/golds.wav");
+	sound.loadSound("stop", "sounds/stop.wav");
+	sound.loadSound("moyai", "sounds/moyai.wav");
+	spdlog::info("F, G, and L mapped to sounds.");
+	RunGameLoop(callback);
 }
 
 void Gengine::Engine::Shutdown() {
@@ -34,31 +32,17 @@ void Gengine::Engine::Shutdown() {
 	graphics.GShutdown();
 }
 
-//FIXME: figure out how to do callback stuff
-void Gengine::Engine::RunGameLoop(){//const UpdateCallback& callback) {
+//maybe use the callback when checking to see if it has been long enough since a button has been pressed TODO
+void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
 
-	const std::chrono::time_point startTime = std::chrono::steady_clock::now();
-	const auto oneFrame = std::chrono::duration<real, std::milli>(1.0/120.0);
+	auto oneFrame = std::chrono::duration<real, std::milli>(1.0/60.0);
 
 	while (true) {
-		std::chrono::time_point currTime = std::chrono::steady_clock::now();
-		std::chrono::duration<double> diff = currTime - startTime;
+		std::chrono::time_point frameStart = std::chrono::steady_clock::now();
+
 		input.Update();
 
-		if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_PRESS) {
-			sound.playSound("moyai");
-			spdlog::info("F go brrrrrr");
-		}
-
-		if (input.isKeyPressed(graphics.w, GLFW_KEY_L) == GLFW_PRESS) {
-			sound.playSound("golds");
-			spdlog::info("L go brrrrrr");
-		}
-
-		if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_PRESS) {
-			sound.playSound("stop");
-			spdlog::info("G go brrrrrr");
-		}
+		callback();
 
 		if (glfwWindowShouldClose(graphics.w)) {
 			Shutdown();
@@ -69,7 +53,27 @@ void Gengine::Engine::RunGameLoop(){//const UpdateCallback& callback) {
 			spdlog::info("Ran Game Loop");
 		}*/
 
-		//ask about if i messed up running this at 60 fps cause it seems like its running less than that
-		std::this_thread::sleep_for(oneFrame);
+		std::chrono::time_point currTime = std::chrono::steady_clock::now();
+		std::chrono::duration<double> diff = oneFrame - (currTime - frameStart);
+
+		std::this_thread::sleep_for(diff);
+	}
+}
+
+void inputCallback()
+{
+	if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_PRESS) {
+		sound.playSound("moyai");
+		spdlog::info("F go brrrrrr");
+	}
+
+	else if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_PRESS) {
+		sound.playSound("stop");
+		spdlog::info("G go brrrrrr");
+	}
+
+	else if (input.isKeyPressed(graphics.w, GLFW_KEY_L) == GLFW_PRESS) {
+		sound.playSound("golds");
+		spdlog::info("L go brrrrrr");
 	}
 }

@@ -2,7 +2,8 @@
 
 using namespace Resource;
 
-Foo::string Resource::ResourceManager::resolvePath(Foo::string path)
+Foo::string Resource::ResourceManager::resolvePath(Foo::string file)
 {
-	return path;//std::filesystem::path::path(file).string(); //FIXME: is this correct?
+	path p = path("./assets") / file;
+	return Foo::string(p.string());
 }

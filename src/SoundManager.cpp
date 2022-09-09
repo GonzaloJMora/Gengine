@@ -1,5 +1,6 @@
 #include "SoundManager.h"
 #include "ResourceManager.h"
+#include "spdlog/spdlog.h"
 
 using namespace Sound;
 using namespace Resource;
