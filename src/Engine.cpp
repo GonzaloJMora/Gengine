@@ -10,6 +10,7 @@ using namespace Sound;
 Graphics::GraphicsManager graphics;
 Input::InputManager input;
 Sound::SoundManager sound;
+bool fFlag = true, gFlag = true, lFlag = true;
 
 void inputCallback();
 
@@ -62,18 +63,33 @@ void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
 
 void inputCallback()
 {
-	if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_PRESS) {
+	if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_PRESS && fFlag) {
 		sound.playSound("moyai");
 		spdlog::info("F go brrrrrr");
+		fFlag = false;
 	}
 
-	else if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_PRESS) {
+	else if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_PRESS && gFlag) {
 		sound.playSound("stop");
 		spdlog::info("G go brrrrrr");
+		gFlag = false;
 	}
 
-	else if (input.isKeyPressed(graphics.w, GLFW_KEY_L) == GLFW_PRESS) {
+	else if (input.isKeyPressed(graphics.w, GLFW_KEY_L) == GLFW_PRESS && lFlag) {
 		sound.playSound("golds");
 		spdlog::info("L go brrrrrr");
+		lFlag = false;
+	}
+
+	if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_RELEASE) {
+		fFlag = true;
+	}
+
+	if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_RELEASE) {
+		gFlag = true;
+	}
+
+	if (input.isKeyPressed(graphics.w, GLFW_KEY_L) == GLFW_RELEASE) {
+		lFlag = true;
 	}
 }
