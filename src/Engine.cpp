@@ -10,7 +10,7 @@ using namespace Sound;
 Graphics::GraphicsManager graphics;
 Input::InputManager input;
 Sound::SoundManager sound;
-bool fFlag = true, gFlag = true, lFlag = true;
+bool fFlag = true, gFlag = true, lFlag = true, curtainCall = false;
 
 void inputCallback();
 
@@ -21,7 +21,9 @@ void Gengine::Engine::Startup(const UpdateCallback& callback) {
 	sound.loadSound("golds", "sounds/golds.wav");
 	sound.loadSound("stop", "sounds/stop.wav");
 	sound.loadSound("moyai", "sounds/moyai.wav");
-	spdlog::info("F, G, and L mapped to sounds.");
+	graphics.loadImage("closed", "textures/closed.png");
+	graphics.loadImage("open", "textures/open.png");
+	spdlog::info("Press F for a spectacle.");
 	RunGameLoop(callback);
 }
 
@@ -30,10 +32,11 @@ void Gengine::Engine::Shutdown() {
 	sound.destroySound("stop");
 	sound.destroySound("moyai");
 	sound.s.deinit();
+	graphics.destroyImage("open");
+	graphics.destroyImage("closed");
 	graphics.GShutdown();
 }
 
-//maybe use the callback when checking to see if it has been long enough since a button has been pressed TODO
 void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
 
 	auto oneFrame = std::chrono::duration<real, std::milli>(1.0/60.0);
@@ -50,9 +53,13 @@ void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
 			return;
 		}
 
-		/*else {
-			spdlog::info("Ran Game Loop");
-		}*/
+		//make a sprite struct that contains all important info on sprites TODO
+		if (curtainCall) {
+			graphics.Draw("open");
+		}
+		else {
+			graphics.Draw("closed");
+		}
 
 		std::chrono::time_point currTime = std::chrono::steady_clock::now();
 		std::chrono::duration<double> diff = oneFrame - (currTime - frameStart);
@@ -67,6 +74,7 @@ void inputCallback()
 		sound.playSound("moyai");
 		spdlog::info("F go brrrrrr");
 		fFlag = false;
+		curtainCall = true;
 	}
 
 	else if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_PRESS && gFlag) {
@@ -83,6 +91,7 @@ void inputCallback()
 
 	if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_RELEASE) {
 		fFlag = true;
+		curtainCall = false;
 	}
 
 	if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_RELEASE) {

@@ -2,7 +2,7 @@
 #include "soloud.h"
 #include "soloud_wav.h"
 #include <unordered_map>
-#include <string>
+#include "Types.h"
 
 namespace Sound {
 	class SoundManager {

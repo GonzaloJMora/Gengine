@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Types.h"
 #include "GLFW/glfw3.h"
+#include "Types.h"
 
 namespace Input {
 
