@@ -5,11 +5,11 @@ using namespace Gengine;
 
 Gengine::Engine engine;
 
-void inputCallback();
+void callback();
 
 int main( int argc, const char* argv[] ) {
 
-	engine.Startup(inputCallback);
+	engine.Startup(callback);
     return 0;
 
 }

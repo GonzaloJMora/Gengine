@@ -12,7 +12,7 @@ namespace Gengine {
 	typedef std::function<void()> UpdateCallback;
 
 	class Engine {
-		public:		
+		public:
 			void Startup(const UpdateCallback& callback);
 			void Shutdown();
 			void RunGameLoop(const UpdateCallback& callback);

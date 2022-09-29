@@ -10,6 +10,7 @@
 #include "stb_image.h"
 
 using namespace glm;
+using namespace temp;
 
 Resource::ResourceManager r;
 
@@ -112,7 +113,8 @@ void Graphics::GraphicsManager::GShutdown() {
 	glfwTerminate();
 }
 
-void Graphics::GraphicsManager::Draw(const std::string& name) {
+void Graphics::GraphicsManager::Draw(const std::vector<temp::Sprite>& sprites) {
+
 	glfwGetFramebufferSize(w, &wid, &hei);
 	sg_begin_default_pass(pass_act, wid, hei);
 
@@ -121,9 +123,6 @@ void Graphics::GraphicsManager::Draw(const std::string& name) {
 	uniforms = Uniforms{};
 	uniforms.projection = mat4{ 1 };
 	uniforms.projection[0][0] = uniforms.projection[1][1] = 1. / 100.;
-
-	int width = imageMap[name].width;
-	int height = imageMap[name].height;
 
 	if (wid < hei) {
 		uniforms.projection[1][1] *= wid;
@@ -134,21 +133,27 @@ void Graphics::GraphicsManager::Draw(const std::string& name) {
 		uniforms.projection[0][0] /= wid;
 	}
 
-	sg_image im = imageMap[name].image;
+	for (Sprite s : sprites) {
 
-	uniforms.transform = translate(mat4{1}, vec3(0, 0, 0)) * rotate(mat4{ 1.0 }, glm::radians(180.0f), vec3(0, 0, 1)) * scale(mat4{1}, vec3(width / 6, height / 5, 1));
-	if (wid < width) {
-		uniforms.transform = uniforms.transform * scale(mat4{ 1 }, vec3(Foo::real(width) / height, 1.0, 1.0));
+		int width = imageMap[s.name].width;
+		int height = imageMap[s.name].height;
+
+		uniforms.transform = translate(mat4{ 1 }, s.translate) * rotate(mat4{ 1.0 }, glm::radians(s.rotateAngle), s.rotateAxis) * scale(mat4{ 1 }, s.scale);
+		if (wid < width) {
+			uniforms.transform = uniforms.transform * scale(mat4{ 1 }, vec3(Foo::real(width) / height, 1.0, 1.0));
+		}
+		else {
+			uniforms.transform = uniforms.transform * scale(mat4{ 1 }, vec3(1.0, Foo::real(height) / width, 1.0));
+		}
+		sg_apply_uniforms(SG_SHADERSTAGE_VS, 0, SG_RANGE(uniforms));
+
+		bindings.fs_images[0] = imageMap[s.name].image;
+		sg_apply_bindings(bindings);
+
+		sg_draw(0, 4, 1);
+
 	}
-	else {
-		uniforms.transform = uniforms.transform * scale(mat4{ 1 }, vec3(1.0, Foo::real(height) / width, 1.0));
-	}
-	sg_apply_uniforms(SG_SHADERSTAGE_VS, 0, SG_RANGE(uniforms));
 
-	bindings.fs_images[0] = imageMap[name].image;
-	sg_apply_bindings(bindings);
-
-	sg_draw(0, 4, 1);
 	sg_end_pass();
 	sg_commit();
 	glfwSwapBuffers(w);
