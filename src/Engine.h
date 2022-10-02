@@ -4,6 +4,7 @@
 #include "GraphicsManager.h"
 #include "InputManager.h"
 #include "SoundManager.h"
+#include "ECS.h"
 #include <thread>
 #include <chrono>
 

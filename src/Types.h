@@ -12,4 +12,17 @@ namespace Foo {
     typedef glm::vec4 vec4;
     class Engine;
     class GraphicsManager;
+
+    struct Position { glm::vec2 pos; };
+    struct Velocity { glm::vec2 vel; };
+    struct Gravity { real meters_per_second; };
+    struct Health { real percent; };
+    struct Script { string name; };
+    struct Sprite {
+        std::string name;
+        glm::vec3 translate;
+        glm::vec3 scale;
+        glm::vec3 rotateAxis;
+        float rotateAngle;
+    };
 }

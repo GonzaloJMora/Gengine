@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include "Types.h"
-#include "Sprite.h"
+#include "ECS.h"
 
 //#define SOKOL_IMPL
 //#define SOKOL_GLCORE33
@@ -38,11 +38,12 @@ namespace Graphics {
 			sg_pass_action pass_act;
 			int wid, hei;
 			Uniforms uniforms;
-			std::vector<temp::Sprite> sprites;
+			std::vector<Foo::Sprite> sprites;
+			Entity::ECS ecs;
 
 			void GStartup(int window_width, int window_height, Foo::string window_name, bool window_fullscreen);
 			void GShutdown();
-			void Draw(const std::vector<temp::Sprite>& sprites);
+			void Draw();
 			void loadImage(const std::string& name, const std::string& path);
 			void destroyImage(const std::string& name);
 	};

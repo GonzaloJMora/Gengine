@@ -10,7 +10,8 @@
 #include "stb_image.h"
 
 using namespace glm;
-using namespace temp;
+using namespace Foo;
+using namespace Entity;
 
 Resource::ResourceManager r;
 
@@ -113,7 +114,7 @@ void Graphics::GraphicsManager::GShutdown() {
 	glfwTerminate();
 }
 
-void Graphics::GraphicsManager::Draw(const std::vector<temp::Sprite>& sprites) {
+void Graphics::GraphicsManager::Draw() {
 
 	glfwGetFramebufferSize(w, &wid, &hei);
 	sg_begin_default_pass(pass_act, wid, hei);
@@ -133,7 +134,9 @@ void Graphics::GraphicsManager::Draw(const std::vector<temp::Sprite>& sprites) {
 		uniforms.projection[0][0] /= wid;
 	}
 
-	for (Sprite s : sprites) {
+	ecs.ForEach<Foo::Sprite>([&](EntityID e) {
+
+		Foo::Sprite& s = ecs.get<Foo::Sprite>(e);
 
 		int width = imageMap[s.name].width;
 		int height = imageMap[s.name].height;
@@ -152,7 +155,7 @@ void Graphics::GraphicsManager::Draw(const std::vector<temp::Sprite>& sprites) {
 
 		sg_draw(0, 4, 1);
 
-	}
+		});
 
 	sg_end_pass();
 	sg_commit();
