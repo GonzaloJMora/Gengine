@@ -10,14 +10,13 @@ namespace Foo {
     typedef glm::vec2 vec2;
     typedef glm::vec3 vec3;
     typedef glm::vec4 vec4;
-    class Engine;
-    class GraphicsManager;
 
     struct Position { glm::vec2 pos; };
     struct Velocity { glm::vec2 vel; };
     struct Gravity { real meters_per_second; };
     struct Health { real percent; };
     struct Script { string name; };
+    struct Sound { string name; };
     struct Sprite {
         std::string name;
         glm::vec3 translate;

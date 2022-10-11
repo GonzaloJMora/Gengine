@@ -17,7 +17,7 @@ namespace Entity {
 			std::vector< std::unique_ptr<SparseSetHolder>> m_components;
 			std::vector<EntityID> ids;
 
-			//components include p -> Position, v -> Velocity, g -> Gravity, h -> Health, s -> Script, i -> Sprite.
+			//components include p -> Position, v -> Velocity, g -> Gravity, h -> Health, s -> Script, i -> Sprite, n -> Sound
 			EntityID create(Foo::string components) {
 				id++;
 
@@ -44,6 +44,10 @@ namespace Entity {
 
 					else if (strcmp("i", &components[i]) == 0 || strcmp("I", &components[i]) == 0) {
 						get<Foo::Sprite>(id);
+					}
+
+					else if (strcmp("n", &components[i]) == 0 || strcmp("N", &components[i]) == 0) {
+						get<Foo::Sound>(id);
 					}
 				}
 

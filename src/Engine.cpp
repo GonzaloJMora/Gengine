@@ -1,25 +1,30 @@
 #include "Engine.h"
 #include "spdlog/spdlog.h"
+#include <filesystem>
 
 using namespace Gengine;
 using namespace Foo;
 using namespace Graphics;
 using namespace Input;
 using namespace Sound;
+using namespace Resource;
 using namespace Entity;
+using namespace Script;
 
-Graphics::GraphicsManager graphics;
-Input::InputManager input;
-Sound::SoundManager sound;
-bool fFlag = true, gFlag = true, lFlag = true, curtainCall = false;
+// all sg glfw soloud and sol objects have become error types
+//write a lua script that does the same stuff that is commented out below and make the rock pictures rotate in real time (also test if dynamic scripting works)
+
+//bool fFlag = true, gFlag = true, lFlag = true, curtainCall = false;
 
 void callback();
 
 void Gengine::Engine::Startup(const UpdateCallback& callback) {
 	graphics.GStartup(1280, 960, "Gengine Collision", false);
 
+	script.startUp();
+
 	sound.s.init();
-	sound.loadSound("golds", "sounds/golds.wav");
+	/*sound.loadSound("golds", "sounds/golds.wav");
 	sound.loadSound("stop", "sounds/stop.wav");
 	sound.loadSound("moyai", "sounds/moyai.wav");
 
@@ -28,73 +33,82 @@ void Gengine::Engine::Startup(const UpdateCallback& callback) {
 	graphics.loadImage("rock", "textures/rock.png");
 	graphics.loadImage("rock_closed", "textures/rock_closed.png");
 
-	graphics.ecs.ids.resize(6);
-	graphics.ecs.ids[0] = graphics.ecs.create("ip");
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[0]).name = "closed";
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[0]).translate = vec3(0, 0, 0);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[0]).scale = vec3(150, 150, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[0]).rotateAxis = vec3(0, 0, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[0]).rotateAngle = 180.0;
-	graphics.ecs.get<Foo::Position>(graphics.ecs.ids[0]).pos = vec2(0, 0);
+	ecs.ids.resize(6);
+	ecs.ids[0] = ecs.create("ip");
+	ecs.get<Foo::Sprite>(ecs.ids[0]).name = "closed";
+	ecs.get<Foo::Sprite>(ecs.ids[0]).translate = vec3(0, 0, 0);
+	ecs.get<Foo::Sprite>(ecs.ids[0]).scale = vec3(150, 150, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[0]).rotateAxis = vec3(0, 0, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[0]).rotateAngle = 180.0;
+	ecs.get<Foo::Position>(ecs.ids[0]).pos = vec2(0, 0);
 
-	graphics.ecs.ids[1] = graphics.ecs.create("ip");
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[1]).name = "open";
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[1]).translate = vec3(0, 0, 0.9);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[1]).scale = vec3(150, 150, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[1]).rotateAxis = vec3(0, 0, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[1]).rotateAngle = 180.0;
-	graphics.ecs.get<Foo::Position>(graphics.ecs.ids[1]).pos = vec2(0, 0);
+	ecs.ids[1] = ecs.create("ip");
+	ecs.get<Foo::Sprite>(ecs.ids[1]).name = "open";
+	ecs.get<Foo::Sprite>(ecs.ids[1]).translate = vec3(0, 0, 0.9);
+	ecs.get<Foo::Sprite>(ecs.ids[1]).scale = vec3(150, 150, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[1]).rotateAxis = vec3(0, 0, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[1]).rotateAngle = 180.0;
+	ecs.get<Foo::Position>(ecs.ids[1]).pos = vec2(0, 0);
 
-	graphics.ecs.ids[2] = graphics.ecs.create("ip");
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[2]).name = "rock_closed";
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[2]).translate = vec3(100, -50, 0);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[2]).scale = vec3(20, 20, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[2]).rotateAxis = vec3(0, 0, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[2]).rotateAngle = 170.0;
-	graphics.ecs.get<Foo::Position>(graphics.ecs.ids[2]).pos = vec2(100, -50);
+	ecs.ids[2] = ecs.create("ip");
+	ecs.get<Foo::Sprite>(ecs.ids[2]).name = "rock_closed";
+	ecs.get<Foo::Sprite>(ecs.ids[2]).translate = vec3(100, -50, 0);
+	ecs.get<Foo::Sprite>(ecs.ids[2]).scale = vec3(20, 20, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[2]).rotateAxis = vec3(0, 0, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[2]).rotateAngle = 170.0;
+	ecs.get<Foo::Position>(ecs.ids[2]).pos = vec2(100, -50);
 
-	graphics.ecs.ids[3] = graphics.ecs.create("ip");
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[3]).name = "rock";
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[3]).translate = vec3(100, -50, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[3]).scale = vec3(20, 20, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[3]).rotateAxis = vec3(0, 0, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[3]).rotateAngle = 170.0;
-	graphics.ecs.get<Foo::Position>(graphics.ecs.ids[3]).pos = vec2(100, -50);
+	ecs.ids[3] = ecs.create("ip");
+	ecs.get<Foo::Sprite>(ecs.ids[3]).name = "rock";
+	ecs.get<Foo::Sprite>(ecs.ids[3]).translate = vec3(100, -50, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[3]).scale = vec3(20, 20, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[3]).rotateAxis = vec3(0, 0, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[3]).rotateAngle = 170.0;
+	ecs.get<Foo::Position>(ecs.ids[3]).pos = vec2(100, -50);
 
-	graphics.ecs.ids[4] = graphics.ecs.create("ip");
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[4]).name = "rock_closed";
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[4]).translate = vec3(-100, -50, 0);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[4]).scale = vec3(-20, 20, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[4]).rotateAxis = vec3(0, 0, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[4]).rotateAngle = 190.0;
-	graphics.ecs.get<Foo::Position>(graphics.ecs.ids[4]).pos = vec2(-100, -50);
+	ecs.ids[4] = ecs.create("ip");
+	ecs.get<Foo::Sprite>(ecs.ids[4]).name = "rock_closed";
+	ecs.get<Foo::Sprite>(ecs.ids[4]).translate = vec3(-100, -50, 0);
+	ecs.get<Foo::Sprite>(ecs.ids[4]).scale = vec3(-20, 20, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[4]).rotateAxis = vec3(0, 0, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[4]).rotateAngle = 190.0;
+	ecs.get<Foo::Position>(ecs.ids[4]).pos = vec2(-100, -50);
 
-	graphics.ecs.ids[5] = graphics.ecs.create("ip");
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[5]).name = "rock";
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[5]).translate = vec3(-100, -50, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[5]).scale = vec3(-20, 20, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[5]).rotateAxis = vec3(0, 0, 1);
-	graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[5]).rotateAngle = 190.0;
-	graphics.ecs.get<Foo::Position>(graphics.ecs.ids[5]).pos = vec2(-100, -50);
+	ecs.ids[5] = ecs.create("ip");
+	ecs.get<Foo::Sprite>(ecs.ids[5]).name = "rock";
+	ecs.get<Foo::Sprite>(ecs.ids[5]).translate = vec3(-100, -50, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[5]).scale = vec3(-20, 20, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[5]).rotateAxis = vec3(0, 0, 1);
+	ecs.get<Foo::Sprite>(ecs.ids[5]).rotateAngle = 190.0;
+	ecs.get<Foo::Position>(ecs.ids[5]).pos = vec2(-100, -50);*/
 
 	spdlog::info("Press F for a spectacle.");
 	RunGameLoop(callback);
 }
 
 void Gengine::Engine::Shutdown() {
-	sound.destroySound("golds");
+	/*sound.destroySound("golds");
 	sound.destroySound("stop");
-	sound.destroySound("moyai");
-	sound.s.deinit();
+	sound.destroySound("moyai");*/
 
-	for (int i = 0; i < graphics.ecs.ids.size(); i++) {
-		graphics.ecs.Destroy(graphics.ecs.ids[i]);
+	for (std::pair<string, SoLoud::Wav> soundPair : sound.soundMap) {
+		sound.destroySound(soundPair.first);
 	}
 
-	graphics.destroyImage("open");
+	for (std::pair<string, Image> imagePair : graphics.imageMap) {
+		graphics.destroyImage(imagePair.first);
+	}
+
+	for (int i = 0; i < ecs.ids.size(); i++) {
+		ecs.Destroy(ecs.ids[i]);
+	}
+
+	/*graphics.destroyImage("open");
 	graphics.destroyImage("closed");
 	graphics.destroyImage("rock");
-	graphics.destroyImage("rock_closed");
+	graphics.destroyImage("rock_closed");*/
+
+	sound.s.deinit();
 	graphics.GShutdown();
 }
 
@@ -104,11 +118,17 @@ void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
 
 	while (true) {
 		std::chrono::time_point frameStart = std::chrono::steady_clock::now();
-
-		input.Update();
-
+		
+		// updates scripts in real time
+		for (const auto &file : std::filesystem::directory_iterator("./assets/scripts/")) {
+			string name = file.path().filename().string();
+			name.erase(name.find(".lua"), name.length());
+			engine.script.loadScript(name, (path("./assets/scripts") / file).string());
+		}
+		
 		callback();
 
+		// close button is clicked
 		if (glfwWindowShouldClose(graphics.w)) {
 			Shutdown();
 			return;
@@ -123,50 +143,53 @@ void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
 
 void callback()
 {
-	if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_PRESS && fFlag) {
-		sound.playSound("moyai");
+	engine.input.Update();
+	engine.script.Update();
+
+	/*if (engine.input.isKeyPressed(engine.graphics.w, GLFW_KEY_F) == GLFW_PRESS && fFlag) {
+		engine.sound.playSound("moyai");
 		spdlog::info("F go brrrrrr");
 		fFlag = false;
 
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[0]).translate = vec3(0, 0, 0.9);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[1]).translate = vec3(0, 0, 0);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[2]).translate = vec3(100, -50, 1);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[3]).translate = vec3(100, -50, 0);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[4]).translate = vec3(-100, -50, 1);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[5]).translate = vec3(-100, -50, 0);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[0]).translate = vec3(0, 0, 0.9);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[1]).translate = vec3(0, 0, 0);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[2]).translate = vec3(100, -50, 1);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[3]).translate = vec3(100, -50, 0);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[4]).translate = vec3(-100, -50, 1);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[5]).translate = vec3(-100, -50, 0);
 	}
-
-	else if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_PRESS && gFlag) {
-		sound.playSound("stop");
+	
+	else if (engine.input.isKeyPressed(engine.graphics.w, GLFW_KEY_G) == GLFW_PRESS && gFlag) {
+		engine.sound.playSound("stop");
 		spdlog::info("G go brrrrrr");
 		gFlag = false;
 	}
-
-	else if (input.isKeyPressed(graphics.w, GLFW_KEY_L) == GLFW_PRESS && lFlag) {
-		sound.playSound("golds");
+	
+	else if (engine.input.isKeyPressed(engine.graphics.w, GLFW_KEY_L) == GLFW_PRESS && lFlag) {
+		engine.sound.playSound("golds");
 		spdlog::info("L go brrrrrr");
 		lFlag = false;
 	}
 
-	if (input.isKeyPressed(graphics.w, GLFW_KEY_F) == GLFW_RELEASE) {
+	if (engine.input.isKeyPressed(engine.graphics.w, GLFW_KEY_F) == GLFW_RELEASE) {
 		fFlag = true;
 		curtainCall = false;
 
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[0]).translate = vec3(0, 0, 0);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[1]).translate = vec3(0, 0, 0.9);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[2]).translate = vec3(100, -50, 0);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[3]).translate = vec3(100, -50, 1);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[4]).translate = vec3(-100, -50, 0);
-		graphics.ecs.get<Foo::Sprite>(graphics.ecs.ids[5]).translate = vec3(-100, -50, 1);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[0]).translate = vec3(0, 0, 0);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[1]).translate = vec3(0, 0, 0.9);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[2]).translate = vec3(100, -50, 0);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[3]).translate = vec3(100, -50, 1);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[4]).translate = vec3(-100, -50, 0);
+		engine.ecs.get<Foo::Sprite>(engine.ecs.ids[5]).translate = vec3(-100, -50, 1);
 	}
 
-	if (input.isKeyPressed(graphics.w, GLFW_KEY_G) == GLFW_RELEASE) {
+	if (engine.input.isKeyPressed(engine.graphics.w, GLFW_KEY_G) == GLFW_RELEASE) {
 		gFlag = true;
 	}
 
-	if (input.isKeyPressed(graphics.w, GLFW_KEY_L) == GLFW_RELEASE) {
+	if (engine.input.isKeyPressed(engine.graphics.w, GLFW_KEY_L) == GLFW_RELEASE) {
 		lFlag = true;
-	}
+	}*/
 
-	graphics.Draw();
+	engine.graphics.Draw();
 }

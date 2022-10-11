@@ -1,6 +1,6 @@
 #include "GraphicsManager.h"
 #include "spdlog/spdlog.h"
-#include "ResourceManager.h"
+#include "Engine.h"
 
 #define SOKOL_IMPL
 #define SOKOL_GLCORE33
@@ -12,8 +12,7 @@
 using namespace glm;
 using namespace Foo;
 using namespace Entity;
-
-Resource::ResourceManager r;
+using namespace Gengine;
 
 void Graphics::GraphicsManager::GStartup(int window_width, int window_height, Foo::string window_name, bool window_fullscreen) {
 	glfwInit();
@@ -134,9 +133,9 @@ void Graphics::GraphicsManager::Draw() {
 		uniforms.projection[0][0] /= wid;
 	}
 
-	ecs.ForEach<Foo::Sprite>([&](EntityID e) {
+	engine.ecs.ForEach<Foo::Sprite>([&](EntityID e) {
 
-		Foo::Sprite& s = ecs.get<Foo::Sprite>(e);
+		Foo::Sprite& s = engine.ecs.get<Foo::Sprite>(e);
 
 		int width = imageMap[s.name].width;
 		int height = imageMap[s.name].height;
@@ -164,7 +163,7 @@ void Graphics::GraphicsManager::Draw() {
 
 void Graphics::GraphicsManager::loadImage(const std::string& name, const std::string& path) {
 	int width, height, channels;
-	unsigned char* data = stbi_load(r.resolvePath(path).c_str(), &width, &height, &channels, 4);
+	unsigned char* data = stbi_load(engine.resource.resolvePath(path).c_str(), &width, &height, &channels, 4);
 
 	sg_image_desc image_desc{};
 	image_desc.width = width;

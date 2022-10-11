@@ -1,15 +1,13 @@
 #include "SoundManager.h"
-#include "ResourceManager.h"
+#include "Engine.h"
 #include "spdlog/spdlog.h"
 
 using namespace Sound;
-using namespace Resource;
-
-Resource::ResourceManager resource;
+using namespace Gengine;
 
 void Sound::SoundManager::loadSound(const std::string& name, const std::string& path)
 {
-	soundMap[name].load(resource.resolvePath(path).c_str());
+	soundMap[name].load(engine.resource.resolvePath(path).c_str());
 }
 
 void Sound::SoundManager::destroySound(const std::string& name)

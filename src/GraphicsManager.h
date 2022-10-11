@@ -4,13 +4,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include "Types.h"
-#include "ECS.h"
-
-//#define SOKOL_IMPL
-//#define SOKOL_GLCORE33
 #include "sokol_gfx.h"
-
-//#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 namespace {
@@ -38,8 +32,6 @@ namespace Graphics {
 			sg_pass_action pass_act;
 			int wid, hei;
 			Uniforms uniforms;
-			std::vector<Foo::Sprite> sprites;
-			Entity::ECS ecs;
 
 			void GStartup(int window_width, int window_height, Foo::string window_name, bool window_fullscreen);
 			void GShutdown();
