@@ -210,7 +210,7 @@ void Script::ScriptManager::Update() {
 
 		Foo::Script& s = engine.ecs.get<Foo::Script>(e);
 
-		Script::ScriptManager::scriptMap[s.name]();
+		Script::ScriptManager::scriptMap[s.name](1);
 
 		});
 }

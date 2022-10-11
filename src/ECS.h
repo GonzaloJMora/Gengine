@@ -5,6 +5,7 @@
 #include <string.h>
 #include <memory>
 #include <functional>
+#include <algorithm>
 
 namespace Entity {
 
@@ -51,12 +52,19 @@ namespace Entity {
 					}
 				}
 
+				ids.push_back(id);
 				return id;
 			}
 
 			void Destroy(EntityID e) {
 				for (const auto& comps : m_components) { 
 					comps->Drop(e); 
+				}
+
+				std::vector<EntityID>::iterator position = std::find(ids.begin(), ids.end(), e);
+
+				if (position != ids.end()) {
+					ids.erase(position);
 				}
 			}
 

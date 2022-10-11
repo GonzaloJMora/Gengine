@@ -11,7 +11,6 @@ using namespace Resource;
 using namespace Entity;
 using namespace Script;
 
-// all sg glfw soloud and sol objects have become error types
 //write a lua script that does the same stuff that is commented out below and make the rock pictures rotate in real time (also test if dynamic scripting works)
 
 //bool fFlag = true, gFlag = true, lFlag = true, curtainCall = false;
@@ -24,6 +23,18 @@ void Gengine::Engine::Startup(const UpdateCallback& callback) {
 	script.startUp();
 
 	sound.s.init();
+
+	for (const auto& file : std::filesystem::directory_iterator("./assets/sounds/")) {
+		string name = file.path().filename().string();
+		name.erase(name.find(".wav"), name.length());
+		engine.sound.loadSound(name, (path("sounds") / file.path().filename().string()).string());
+	}
+
+	for (const auto& file : std::filesystem::directory_iterator("./assets/textures/")) {
+		string name = file.path().filename().string();
+		name.erase(name.find(".png"), name.length());
+		engine.graphics.loadImage(name, (path("textures") / file.path().filename().string()).string());
+	}
 	/*sound.loadSound("golds", "sounds/golds.wav");
 	sound.loadSound("stop", "sounds/stop.wav");
 	sound.loadSound("moyai", "sounds/moyai.wav");
@@ -31,9 +42,9 @@ void Gengine::Engine::Startup(const UpdateCallback& callback) {
 	graphics.loadImage("closed", "textures/closed.png");
 	graphics.loadImage("open", "textures/open.png");
 	graphics.loadImage("rock", "textures/rock.png");
-	graphics.loadImage("rock_closed", "textures/rock_closed.png");
+	graphics.loadImage("rock_closed", "textures/rock_closed.png");*/
 
-	ecs.ids.resize(6);
+	/*ecs.ids.resize(6);
 	ecs.ids[0] = ecs.create("ip");
 	ecs.get<Foo::Sprite>(ecs.ids[0]).name = "closed";
 	ecs.get<Foo::Sprite>(ecs.ids[0]).translate = vec3(0, 0, 0);
@@ -82,6 +93,8 @@ void Gengine::Engine::Startup(const UpdateCallback& callback) {
 	ecs.get<Foo::Sprite>(ecs.ids[5]).rotateAngle = 190.0;
 	ecs.get<Foo::Position>(ecs.ids[5]).pos = vec2(-100, -50);*/
 
+	engine.script.loadScript("test", "scripts/test.lua");
+
 	spdlog::info("Press F for a spectacle.");
 	RunGameLoop(callback);
 }
@@ -110,6 +123,8 @@ void Gengine::Engine::Shutdown() {
 
 	sound.s.deinit();
 	graphics.GShutdown();
+
+	exit(EXIT_SUCCESS);
 }
 
 void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
@@ -119,19 +134,18 @@ void Gengine::Engine::RunGameLoop(const UpdateCallback& callback) {
 	while (true) {
 		std::chrono::time_point frameStart = std::chrono::steady_clock::now();
 		
-		// updates scripts in real time
-		for (const auto &file : std::filesystem::directory_iterator("./assets/scripts/")) {
+		// updates scripts in real time (does not work)
+		/*for (const auto& file : std::filesystem::directory_iterator("./assets/scripts/")) {
 			string name = file.path().filename().string();
 			name.erase(name.find(".lua"), name.length());
-			engine.script.loadScript(name, (path("./assets/scripts") / file).string());
-		}
-		
+			engine.script.loadScript(name, (path("scripts") / file.path().filename().string()).string());
+		}*/
+
 		callback();
 
 		// close button is clicked
 		if (glfwWindowShouldClose(graphics.w)) {
 			Shutdown();
-			return;
 		}
 
 		std::chrono::time_point currTime = std::chrono::steady_clock::now();
