@@ -92,7 +92,7 @@ namespace Entity {
 			}
 
 		private:
-			inline static EntityID id = 0;
+			EntityID id = 0;
 
 			template<typename T> ComponentIndex GetComponentIndex() {
 				static ComponentIndex index = GetNextIndex(); // Only calls GetNextIndex() the first time this function is called.

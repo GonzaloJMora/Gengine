@@ -17,7 +17,7 @@ void Script::ScriptManager::startUp()
 	lua.set_function("quit", [&]() {engine.Shutdown();});
 
 	// allow users to expose their own functions and usertypes to lua
-	lua.set_function("getLua", [&]() -> sol::state& {return Script::ScriptManager::lua;});
+	//lua.set_function("getLua", [&]() -> sol::state& {return Script::ScriptManager::lua;});
 
 	// expose functionality to load and play sounds to lua (file path for loading must include folder and file e.g. "sounds/moyai.wav")
 	lua.set_function("playSound", [&](const std::string& name) {engine.sound.playSound(name);});
@@ -179,6 +179,16 @@ void Script::ScriptManager::startUp()
 		"RIGHT_CTRL", GLFW_KEY_RIGHT_CONTROL
 		// TODO add input for mouse and controller glfw.h source code has definitions if i have time
 		);
+
+	lua.script(R"(local closedID = createEntity("ip")
+local closedSprite = getSprite(closedID)
+--getPosition(closedID) = vec2(0, 0)
+--closedSprite.name = "closed"
+--closedSprite.translate = vec3(0, 0, 0)
+--closedSprite.scale = vec3(150, 150, 1)
+--closedSprite.rotateAxis = vec3(0, 0, 1)
+--closedSprite.rotateAngle = 180.0)");
+	//lua.script(R"(loadSound("moyai", "sounds/moyai.wav"))");
 }
 
 bool Script::ScriptManager::loadScript(const Foo::string& name, const Foo::string& path)
@@ -198,7 +208,7 @@ bool Script::ScriptManager::loadScript(const Foo::string& name, const Foo::strin
 
 	if (!isUpdate) {
 		Entity::EntityID id = engine.ecs.create("s");
-		engine.ecs.ids.push_back(id);
+		//engine.ecs.ids.push_back(id);
 		engine.ecs.get<Foo::Script>(id).name = name;
 	}
 
@@ -210,7 +220,7 @@ void Script::ScriptManager::Update() {
 
 		Foo::Script& s = engine.ecs.get<Foo::Script>(e);
 
-		Script::ScriptManager::scriptMap[s.name](1);
+		Script::ScriptManager::scriptMap[s.name]();
 
 		});
 }

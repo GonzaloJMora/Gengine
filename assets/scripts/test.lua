@@ -4,7 +4,7 @@ if isKeyDown(KEYBOARD.Q) then
 end
 
 --loading anything through scripts is broken?
-
+--make an init script to fix this and only run it on startup
 --loadSound("moyai", "sounds/moyai.wav")
 --loadImage("closed", "textures/closed.png")
 --loadImage("open", "textures/open.png")

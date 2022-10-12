@@ -11,8 +11,6 @@ using namespace Resource;
 using namespace Entity;
 using namespace Script;
 
-//write a lua script that does the same stuff that is commented out below and make the rock pictures rotate in real time (also test if dynamic scripting works)
-
 //bool fFlag = true, gFlag = true, lFlag = true, curtainCall = false;
 
 void callback();
