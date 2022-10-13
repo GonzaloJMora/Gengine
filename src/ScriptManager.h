@@ -13,5 +13,6 @@ namespace Script {
 			void startUp();
 			bool loadScript(const Foo::string& name, const Foo::string& path);
 			void Update();
+			void init();
 	};
 }

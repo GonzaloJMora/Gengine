@@ -16,9 +16,6 @@ void Script::ScriptManager::startUp()
 	// expose shutdown function to lua
 	lua.set_function("quit", [&]() {engine.Shutdown();});
 
-	// allow users to expose their own functions and usertypes to lua
-	//lua.set_function("getLua", [&]() -> sol::state& {return Script::ScriptManager::lua;});
-
 	// expose functionality to load and play sounds to lua (file path for loading must include folder and file e.g. "sounds/moyai.wav")
 	lua.set_function("playSound", [&](const std::string& name) {engine.sound.playSound(name);});
 	lua.set_function("loadSound", [&](const std::string& name, const std::string& path) {engine.sound.loadSound(name, path);});
@@ -179,16 +176,6 @@ void Script::ScriptManager::startUp()
 		"RIGHT_CTRL", GLFW_KEY_RIGHT_CONTROL
 		// TODO add input for mouse and controller glfw.h source code has definitions if i have time
 		);
-
-	lua.script(R"(local closedID = createEntity("ip")
-local closedSprite = getSprite(closedID)
---getPosition(closedID) = vec2(0, 0)
---closedSprite.name = "closed"
---closedSprite.translate = vec3(0, 0, 0)
---closedSprite.scale = vec3(150, 150, 1)
---closedSprite.rotateAxis = vec3(0, 0, 1)
---closedSprite.rotateAngle = 180.0)");
-	//lua.script(R"(loadSound("moyai", "sounds/moyai.wav"))");
 }
 
 bool Script::ScriptManager::loadScript(const Foo::string& name, const Foo::string& path)
@@ -208,7 +195,6 @@ bool Script::ScriptManager::loadScript(const Foo::string& name, const Foo::strin
 
 	if (!isUpdate) {
 		Entity::EntityID id = engine.ecs.create("s");
-		//engine.ecs.ids.push_back(id);
 		engine.ecs.get<Foo::Script>(id).name = name;
 	}
 
@@ -220,7 +206,27 @@ void Script::ScriptManager::Update() {
 
 		Foo::Script& s = engine.ecs.get<Foo::Script>(e);
 
-		Script::ScriptManager::scriptMap[s.name]();
+		if (strcmp(s.name.c_str(), "quit") == 0) {
+			scriptMap[s.name]();
+		}
 
-		});
+		else if (strcmp(s.name.c_str(), "test") == 0) {
+			std::vector<long long> spriteID;
+			spriteID.resize(6);
+			int i = 0;
+
+			engine.ecs.ForEach<Foo::Sprite>([&](EntityID id) {
+				Foo::Sprite& sp = engine.ecs.get<Foo::Sprite>(id);
+
+				spriteID[i] = id;
+				i++;
+			});
+			scriptMap[s.name](spriteID[0], spriteID[1], spriteID[2], spriteID[3], spriteID[4], spriteID[5]);
+		}
+
+	});
+}
+
+void Script::ScriptManager::init() {
+	scriptMap["init"]();
 }

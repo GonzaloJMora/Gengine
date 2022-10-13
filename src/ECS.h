@@ -14,7 +14,6 @@ namespace Entity {
 
 	class ECS {
 		public:
-			//ask prof how to make it work when members are static so that I can store the data as needed FIXME
 			std::vector< std::unique_ptr<SparseSetHolder>> m_components;
 			std::vector<EntityID> ids;
 
