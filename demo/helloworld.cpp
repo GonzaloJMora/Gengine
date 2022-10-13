@@ -3,8 +3,6 @@
 
 using namespace Gengine;
 
-Gengine::Engine engine;
-
 void callback();
 
 int main( int argc, const char* argv[] ) {

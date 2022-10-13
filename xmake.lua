@@ -44,3 +44,4 @@ target("helloworld")
         cprint("Copying assets")
         os.cp("$(projectdir)/assets", path.directory(target:targetfile()))
     end)
+    --symbolic link maybe to try real time updating or just calling xmake.lua as a script
