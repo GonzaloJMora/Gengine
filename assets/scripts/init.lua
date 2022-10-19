@@ -59,3 +59,74 @@ sprite.scale = vec3:new(-20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
 sprite.rotateAngle = 190.0
 
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(-100, 50)
+sprite.name = "rock_closed"
+sprite.translate = vec3:new(-100, 50, 0)
+sprite.scale = vec3:new(20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 170.0
+
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(100, -50)
+sprite.name = "rock_closed"
+sprite.translate = vec3:new(100, -50, 0)
+sprite.scale = vec3:new(-20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 190.0
+
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(-100, 50)
+sprite.name = "rock"
+sprite.translate = vec3:new(-100, 50, 1)
+sprite.scale = vec3:new(20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 170.0
+
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(100, -50)
+sprite.name = "rock"
+sprite.translate = vec3:new(100, -50, 1)
+sprite.scale = vec3:new(-20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 190.0
+
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(0, 50)
+sprite.name = "rock_closed"
+sprite.translate = vec3:new(0, 50, 0)
+sprite.scale = vec3:new(20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 170.0
+
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(0, -50)
+sprite.name = "rock_closed"
+sprite.translate = vec3:new(0, -50, 0)
+sprite.scale = vec3:new(-20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 190.0
+
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(0, 50)
+sprite.name = "rock"
+sprite.translate = vec3:new(0, 50, 1)
+sprite.scale = vec3:new(20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 170.0
+
+id = createEntity("ip")
+sprite = getSprite(id)
+getPosition(id).pos = vec2:new(0, -50)
+sprite.name = "rock"
+sprite.translate = vec3:new(0, -50, 1)
+sprite.scale = vec3:new(-20, 20, 1)
+sprite.rotateAxis = vec3:new(0, 0, 1)
+sprite.rotateAngle = 190.0

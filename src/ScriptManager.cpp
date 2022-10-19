@@ -212,7 +212,7 @@ void Script::ScriptManager::Update() {
 
 		else if (strcmp(s.name.c_str(), "test") == 0) {
 			std::vector<long long> spriteID;
-			spriteID.resize(6);
+			spriteID.resize(15);
 			int i = 0;
 
 			engine.ecs.ForEach<Foo::Sprite>([&](EntityID id) {
@@ -221,7 +221,7 @@ void Script::ScriptManager::Update() {
 				spriteID[i] = id;
 				i++;
 			});
-			scriptMap[s.name](spriteID[0], spriteID[1], spriteID[2], spriteID[3], spriteID[4], spriteID[5]);
+			scriptMap[s.name](spriteID[0], spriteID[1], spriteID[2], spriteID[3], spriteID[4], spriteID[5], spriteID[6], spriteID[7], spriteID[8], spriteID[9], spriteID[10], spriteID[11], spriteID[12], spriteID[13]);
 		}
 
 	});
