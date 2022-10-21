@@ -14,17 +14,17 @@ using namespace Script;
 void callback();
 
 void Gengine::Engine::Startup(const UpdateCallback& callback) {
-	graphics.GStartup(1280, 960, "Gengine Collision", false);
+	graphics.GStartup(1280, 960, "Gengine Contact", false);
 
 	script.startUp();
-
-	sound.s.init();
 
 	for (const auto& file : std::filesystem::directory_iterator("./assets/scripts/")) {
 		string name = file.path().filename().string();
 		name.erase(name.find(".lua"), name.length());
 		engine.script.loadScript(name, (path("scripts") / file.path().filename().string()).string());
 	}
+
+	sound.s.init();
 
 	script.init();
 

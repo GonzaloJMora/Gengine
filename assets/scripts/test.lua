@@ -1,6 +1,63 @@
-local id1, id2, id3, id4, id5, id6, id7, id8, id9, id10, id11, id12, id13, id14 = ...
+if not fDownFlag and isKeyDown(KEYBOARD.F) then
+	playSound("moyai")
+	fDownFlag = true
+	resetFlag = true
 
-s1 = getSprite(id1)
+	for i = 0, 13 do
+		if i == 0 then
+			sprite = getSprite(ids[i])
+			sprite.translate = vec3:new(0, 0, 0.9)
+		
+		elseif i == 1 then
+			sprite = getSprite(ids[i])
+			sprite.translate = vec3:new(0, 0, 0)
+
+		else
+			sprite = getSprite(ids[i])
+
+			if sprite.translate.z > 0 then
+				sprite.translate = sprite.translate - vec3:new(0, 0, 1)
+
+			elseif sprite.translate.z < 1 then
+				sprite.translate = sprite.translate + vec3:new(0, 0, 1)
+
+			end
+
+		end
+	end
+
+elseif not isKeyDown(KEYBOARD.F) then
+	fDownFlag = false
+
+	for i = 0, 13 do
+		if i == 0 then
+			sprite = getSprite(ids[i])
+			sprite.translate = vec3:new(0, 0, 0)
+		
+		elseif i == 1 then
+			sprite = getSprite(ids[i])
+			sprite.translate = vec3:new(0, 0, 0.9)
+
+		else
+			sprite = getSprite(ids[i])
+
+			if resetFlag and sprite.translate.z > 0 and i == 2 or i == 3 or i == 6 or i == 7 or i == 10 or i == 11 then
+				sprite.translate = sprite.translate - vec3:new(0, 0, 1)
+
+			elseif resetFlag and sprite.translate.z < 1 and i == 4 or i == 5 or i == 8 or i == 9 or i == 12 or i == 13 then
+				sprite.translate = sprite.translate + vec3:new(0, 0, 1)
+
+			end
+
+		end
+	end
+
+	resetFlag = false
+end
+
+--local id1, id2, id3, id4, id5, id6, id7, id8, id9, id10, id11, id12, id13, id14 = ...
+
+--[[s1 = getSprite(id1)
 s2 = getSprite(id2)
 s3 = getSprite(id3)
 s4 = getSprite(id4)
@@ -21,7 +78,7 @@ if isKeyDown(KEYBOARD.F) then
 	s1.translate = vec3:new(0, 0, 0.9)
 	s2.translate = vec3:new(0, 0, 0)
 
-	if s3.translate.z < 1 and s4.translate.z < 1 then
+	if s3.translate.z < 1 then
 		s3.translate = s3.translate + vec3:new(0, 0, 1)
 		s4.translate = s4.translate + vec3:new(0, 0, 1)
 		s7.translate = s7.translate + vec3:new(0, 0, 1)
@@ -30,7 +87,7 @@ if isKeyDown(KEYBOARD.F) then
 		s12.translate = s12.translate + vec3:new(0, 0, 1)
 	end
 
-	if s5.translate.z > 0 and s6.translate.z > 0 then
+	if s5.translate.z > 0 then
 		s5.translate = s5.translate - vec3:new(0, 0, 1)
 		s6.translate = s6.translate - vec3:new(0, 0, 1)
 		s9.translate = s9.translate - vec3:new(0, 0, 1)
@@ -181,5 +238,5 @@ else
 		s14.translate = s14.translate + vec3:new(0, 0.25, 0)
 
 	end
-
-end
+	
+end]]
