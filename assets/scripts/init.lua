@@ -39,7 +39,7 @@ sprite.name = "rock_closed"
 sprite.translate = vec3:new(100, 75, 0)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 0.0
 getVelocity(id).vel = vec2:new(0, -0.25)
 ids[2] = id
 
@@ -50,7 +50,7 @@ sprite.name = "rock"
 sprite.translate = vec3:new(100, 75, 1)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 0.0
 getVelocity(id).vel = vec2:new(0, 0.25)
 ids[3] = id
 
@@ -61,7 +61,7 @@ sprite.name = "rock_closed"
 sprite.translate = vec3:new(-100, -75, 0)
 sprite.scale = vec3:new(-20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 45.0
 getVelocity(id).vel = vec2:new(0, 0.25)
 ids[4] = id
 
@@ -72,7 +72,7 @@ sprite.name = "rock"
 sprite.translate = vec3:new(-100, -75, 1)
 sprite.scale = vec3:new(-20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 45.0
 getVelocity(id).vel = vec2:new(0, 0.25)
 ids[5] = id
 
@@ -83,7 +83,7 @@ sprite.name = "rock_closed"
 sprite.translate = vec3:new(-100, 75, 0)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 90.0
 getVelocity(id).vel = vec2:new(0.25, 0)
 ids[6] = id
 
@@ -94,7 +94,7 @@ sprite.name = "rock"
 sprite.translate = vec3:new(-100, 75, 1)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 90.0
 getVelocity(id).vel = vec2:new(0.25, 0)
 ids[7] = id
 
@@ -105,7 +105,7 @@ sprite.name = "rock_closed"
 sprite.translate = vec3:new(100, -75, 0)
 sprite.scale = vec3:new(-20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 135.0
 getVelocity(id).vel = vec2:new(-0.25, 0)
 ids[8] = id
 
@@ -116,7 +116,7 @@ sprite.name = "rock"
 sprite.translate = vec3:new(100, -75, 1)
 sprite.scale = vec3:new(-20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 170.0
+sprite.rotateAngle = 135.0
 getVelocity(id).vel = vec2:new(-0.25, 0)
 ids[9] = id
 
@@ -127,7 +127,7 @@ sprite.name = "rock_closed"
 sprite.translate = vec3:new(0, -75, 0)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 180.0
 getVelocity(id).vel = vec2:new(0.25, 0)
 ids[10] = id
 
@@ -138,7 +138,7 @@ sprite.name = "rock"
 sprite.translate = vec3:new(0, -75, 1)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 180.0
 getVelocity(id).vel = vec2:new(0.25, 0)
 ids[11] = id
 
@@ -150,7 +150,7 @@ sprite.translate = vec3:new(0, 75, 0)
 sprite.scale = vec3:new(-20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
 getVelocity(id).vel = vec2:new(-0.25, 0)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 225.0
 ids[12] = id
 
 id = createEntity("vip")
@@ -160,7 +160,7 @@ sprite.name = "rock"
 sprite.translate = vec3:new(0, 75, 1)
 sprite.scale = vec3:new(-20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 225.0
 getVelocity(id).vel = vec2:new(-0.25, 0)
 ids[13] = id
 
@@ -171,7 +171,7 @@ sprite.name = "rock_closed"
 sprite.translate = vec3:new(-100, 0, 0)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 270.0
 getVelocity(id).vel = vec2:new(0, -0.25)
 ids[14] = id
 
@@ -182,7 +182,7 @@ sprite.name = "rock"
 sprite.translate = vec3:new(-100, 0, 1)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 270.0
 getVelocity(id).vel = vec2:new(0, -0.25)
 ids[15] = id
 
@@ -193,7 +193,7 @@ sprite.name = "rock_closed"
 sprite.translate = vec3:new(100, 0, 0)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 315.0
 getVelocity(id).vel = vec2:new(0, 0.25)
 ids[16] = id
 
@@ -204,6 +204,6 @@ sprite.name = "rock"
 sprite.translate = vec3:new(100, 0, 1)
 sprite.scale = vec3:new(20, 20, 1)
 sprite.rotateAxis = vec3:new(0, 0, 1)
-sprite.rotateAngle = 190.0
+sprite.rotateAngle = 315.0
 getVelocity(id).vel = vec2:new(0, 0.25)
 ids[17] = id
