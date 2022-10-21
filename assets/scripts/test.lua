@@ -40,14 +40,39 @@ elseif not isKeyDown(KEYBOARD.F) then
 
 		else
 			sprite = getSprite(ids[i])
+			vel = getVelocity(ids[i])
 
-			if resetFlag and sprite.translate.z > 0 and i == 2 or i == 3 or i == 6 or i == 7 or i == 10 or i == 11 then
+			if i == 2 or i == 3 or i == 6 or i == 7 or i == 10 or i == 11 then
+				sprite.rotateAngle = sprite.rotateAngle + 0.35
+
+			elseif i == 4 or i == 5 or i == 8 or i == 9 or i == 12 or i == 13 then
+				sprite.rotateAngle = sprite.rotateAngle - 0.35
+
+			end
+
+			if sprite.translate.y == 50 and sprite.translate.x <= -100 then
+				vel.vel = vec2:new(0, -0.25)
+
+			elseif sprite.translate.x == -100 and sprite.translate.y <= -50 then
+				vel.vel = vec2:new(0.25, 0)
+
+			elseif sprite.translate.y == -50 and sprite.translate.x >= 100 then
+				vel.vel = vec2:new(0, 0.25)
+
+			elseif sprite.translate.x == 100 and sprite.translate.y >= 50 then
+				vel.vel = vec2:new(-0.25, 0)
+				
+			end
+
+			sprite.translate = sprite.translate + vec3:new(vel.vel.x, vel.vel.y, 0)
+
+			--[[if resetFlag and sprite.translate.z > 0 and i == 2 or i == 3 or i == 6 or i == 7 or i == 10 or i == 11 then
 				sprite.translate = sprite.translate - vec3:new(0, 0, 1)
 
 			elseif resetFlag and sprite.translate.z < 1 and i == 4 or i == 5 or i == 8 or i == 9 or i == 12 or i == 13 then
 				sprite.translate = sprite.translate + vec3:new(0, 0, 1)
 
-			end
+			end]]
 
 		end
 	end
