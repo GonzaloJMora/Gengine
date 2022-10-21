@@ -12,3 +12,4 @@
 .xmake/windows/x64/cache/repository
 .xmake/windows/x64/cache/toolchain
 .xmake/windows/x64/project.lock
+.vs/VSWorkspaceState.json
