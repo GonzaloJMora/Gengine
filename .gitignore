@@ -13,3 +13,11 @@
 .xmake/windows/x64/cache/toolchain
 .xmake/windows/x64/project.lock
 .vs/VSWorkspaceState.json
+.vs/Gengine/FileContentIndex/9edd485f-e7bd-4e9d-aa6f-8f4ddaa63d69.vsidx
+*.lock
+.vs/Gengine/v17/.suo
+.vs/tasks.vs.json
+.vs/Gengine/v17/Browse.VC.db
+CppProperties.json
+CppProperties.json
+.xmake/windows/x64/xmake.conf
